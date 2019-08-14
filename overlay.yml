@@ -20,7 +20,7 @@ aliases:
 
 distgit:
   prefix: fedorapkgs
-  branch: f24
+  branch: f28
   
 root:
   mock: centos-7-and-extras-$arch.cfg
@@ -32,47 +32,23 @@ components:
   - src: github:projectatomic/centos-release-atomic-host-devel
     spec: internal
 
-  # Keeping this around for a while to have a convenient
-  # repository to test Homu/PRs etc.
-  - src: github:cgwalters/playground
-    spec: internal
-
   - src: github:projectatomic/bubblewrap
     spec: internal
 
   - src: github:projectatomic/atomic-devmode
-
-  - src: distgit
-    distgit:
-      name: python-ipaddress
-      branch: master
-
-  - src: distgit
-    distgit:
-      name: python-docker-py
-
-  # only needed for toolbox now
-  - src: gnome:libgsystem
-    distgit: 
-      patches: drop
 
   - src: github:ostreedev/ostree
     distgit:
       branch: master
       patches: drop
 
-  # libdnf needs a newer version than Core
-  - distgit: libsolv
+  # Ensures we're more "self hosting"
+  - distgit: nss-altfiles
 
   - src: github:projectatomic/rpm-ostree
     distgit:
       branch: master
       patches: drop
-
-  - src: github:projectatomic/rpm-ostree-toolbox
-    distgit:
-      branch: master
-      patches: drop
-
-  - src: github:cgwalters/micro-yuminst.git
-    spec: internal
+    rpmwith:
+      - rust
+    build-network: true
